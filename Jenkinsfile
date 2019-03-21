@@ -14,6 +14,7 @@ pipeline {
         timeout(time: 2, unit: 'MINUTES') 
       }
       steps {
+        echo "${upload_file}"
         sh "scp ${upload_file} root@\$(echo ${upload_host} | cut -d \":\" -f1):${upload_dir}  "  // 检测到指定内容started则退出
         echo "Restart success."
       }
