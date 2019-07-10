@@ -13,7 +13,7 @@ pipeline {
       options {
         timeout(time: 2, unit: 'MINUTES') 
       }
-      steps {
+      node {
         echo "${upload_file}"
         deleteDir()
         uploaded_file = library.inputGetFile('upload_file')
