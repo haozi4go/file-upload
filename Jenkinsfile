@@ -13,11 +13,12 @@ pipeline {
       options {
         timeout(time: 2, unit: 'MINUTES') 
       }
-      node {
+      steps {
         echo "${upload_file}"
-        deleteDir()
-        uploaded_file = library.inputGetFile('upload_file')
-        sh "scp ${uploaded_file} root@\$(echo ${upload_host} | cut -d \":\" -f1):${upload_dir}  "  // 检测到指定内容started则退出
+        def inputFile = input message: 'Upload file', parameters: [file(name: 'data.zip')]
+        new hudson.FilePath(new File("$workspace/data.zip")).copyFrom(inputFile)
+        inputFile.delete()
+        //sh "scp ${uploaded_file} root@\$(echo ${upload_host} | cut -d \":\" -f1):${upload_dir}  "  // 检测到指定内容started则退出
         echo "Restart success."
       }
     }
